@@ -13,11 +13,11 @@ function Formm() {
     ConfirmPassword: yup.string().oneOf([yup.ref("Password"), null, "password doesnt match"]).required()
   })
 
-  const{register, handleSubmit, forstate:{ errors}} = useForm({
+  const { register, handleSubmit, forstate: { errors } } = useForm({
     resolver: yupResolver(schema)
   })
 
-  function onSubmit (data) {
+  function onSubmit(data) {
     console.log(data);
   }
 
@@ -49,20 +49,29 @@ function Formm() {
     cursor: 'pointer',
   };
 
-// end of styles 
+  // end of styles 
   return (
-  <>
-     <div style={containerStyle}>
-      <form style={formStyle}>
-        <input style={inputStyle} type="text" placeholder="Name" />
-        <input style={inputStyle} type="email" placeholder="Email" />
-        <input style={inputStyle} type="password" placeholder="Password" />
-        <input style={inputStyle} type="text" placeholder="Address" />
-        <input style={inputStyle} type="tel" placeholder="Phone" />
-        <button style={submitButtonStyle} type="submit">Submit</button>
-      </form>
-    </div>
-  </>
+    <>
+      <div style={containerStyle}>
+        <form style={formStyle} onChange={() => handleSubmit(onSubmit)}>
+          <input style={inputStyle} type="text" placeholder="First-Name"  {...register("FullName")} />
+          <p style={{ color: "red" }}>{errors?.FirstName.message}</p>
+          <input style={inputStyle} type="text" placeholder="Last-Name"  {...register("LastName")} />
+          <p style={{ color: "red" }}>{errors?.LastName.message}</p>
+          <input style={inputStyle} type="email" placeholder="Email" {...register("Email")} />
+          <p style={{ color: "red" }}>{errors?.Email.message}</p>
+          <input style={inputStyle} type="email" placeholder="Age" {...register("Age")} />
+          <p style={{ color: "red" }}>{errors?.Age.message}</p>
+          <input style={inputStyle} type="password" placeholder="Password" {...register("Password")} />
+          <p style={{ color: "red" }}>{errors?.Password.message}</p>
+          <input style={inputStyle} type="text" placeholder=" ConfirmPassword"  {...register(ConfirmPassword)} />
+          <p style={{ color: "red" }}>{errors?.ConfirmPassword.message}</p>
+          <button style={submitButtonStyle} type="submit">Submit</button>
+        </form>
+      </div>
+    </>
   )
 
 }
+
+export default Formm
