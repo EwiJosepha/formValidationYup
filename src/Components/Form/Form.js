@@ -1,5 +1,5 @@
-import * as yup from "yup"
 import { useForm } from "react-hook-form"
+import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 
 function Formm() {
@@ -8,17 +8,18 @@ function Formm() {
     FirstName: yup.string().required(),
     LastName: yup.string().required(),
     Email: yup.string().email().required(),
-    Age: yup.number().positive().integer().min(i8),
+    Age: yup.number().positive().integer().min(8),
     Password: yup.string().min(8).max(20).required(),
-    ConfirmPassword: yup.string().oneOf([yup.ref("Password"), null, "password doesnt match"]).required()
+    // ConfirmPassword: yup.string().oneOf([yup.ref("Password"), null, "password doesnt match"]).required()
   })
 
-  const { register, handleSubmit, forstate: { errors } } = useForm({
+  const { register, handleSubmit, formstate: errors } = useForm({
     resolver: yupResolver(schema)
   })
 
-  function onSubmit(data) {
+  function onSubmitt(data) {
     console.log(data);
+    console.log("hey");
   }
 
   //styles
@@ -49,24 +50,25 @@ function Formm() {
     cursor: 'pointer',
   };
 
-  // end of styles 
+  // end of styles
   return (
     <>
       <div style={containerStyle}>
-        <form style={formStyle} onChange={() => handleSubmit(onSubmit)}>
-          <input style={inputStyle} type="text" placeholder="First-Name"  {...register("FullName")} />
+        <form onSubmit={handleSubmit(onSubmitt)} style={formStyle}>
+          <input style={inputStyle} type="text" placeholder="First-Name" {...register(" FirstName")} />
           <p style={{ color: "red" }}>{errors?.FirstName.message}</p>
-          <input style={inputStyle} type="text" placeholder="Last-Name"  {...register("LastName")} />
+          <input style={inputStyle} type="text" placeholder="Last-Name" {...register("LastName")} />
           <p style={{ color: "red" }}>{errors?.LastName.message}</p>
           <input style={inputStyle} type="email" placeholder="Email" {...register("Email")} />
           <p style={{ color: "red" }}>{errors?.Email.message}</p>
-          <input style={inputStyle} type="email" placeholder="Age" {...register("Age")} />
+          <input style={inputStyle} type="number" placeholder="Age" {...register("Age")} />
           <p style={{ color: "red" }}>{errors?.Age.message}</p>
           <input style={inputStyle} type="password" placeholder="Password" {...register("Password")} />
-          <p style={{ color: "red" }}>{errors?.Password.message}</p>
-          <input style={inputStyle} type="text" placeholder=" ConfirmPassword"  {...register(ConfirmPassword)} />
-          <p style={{ color: "red" }}>{errors?.ConfirmPassword.message}</p>
-          <button style={submitButtonStyle} type="submit">Submit</button>
+          <p style={{ color: "red" }} autocomplete="current-password"
+          >{errors?.Password.message}</p>
+
+          {/* <p style={{ color: "red" }}>{errors?.Password.message}</p> */}
+          <button style={submitButtonStyle} type="submit" {...register("submit")}>Submit</button>
         </form>
       </div>
     </>
